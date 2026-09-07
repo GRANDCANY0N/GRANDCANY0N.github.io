@@ -1,188 +1,62 @@
 import type { Metadata } from "next";
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  Code2,
-  Database,
-  FileSearch,
-  Layers3,
-  SearchCheck,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Code2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "DocTrace｜复杂文档多模态检索｜孙嘉豪",
-  description: "复杂 PDF 从解析、质量门控、视觉修订、多模态切块到可追溯召回的项目案例。",
+  title: "复杂文档解析与证据检索｜孙嘉豪",
+  description: "复杂 PDF 从 MinerU 解析、VLM 后处理、分模态 Chunk 到混合召回的项目详情。",
 };
 
 const pipeline = [
-  ["01", "PDF 预检", "文件完整性、页数、旋转与运行身份"],
-  ["02", "基础解析", "MinerU 输出 Page / Block / Asset"],
-  ["03", "完整性审计", "文本层、坐标与可见墨迹交叉检查"],
-  ["04", "按需视觉修订", "疑难文字、表格、图表与公式路由"],
-  ["05", "结构重建", "阅读顺序、标题路径与跨页表判断"],
-  ["06", "多模态切块", "正文、表格、图表和公式分层生成"],
-  ["07", "证据召回", "MySQL 存证，Milvus 混合检索与重排"],
+  ["01", "PDF 预检", "检查文件完整性、页面方向、文本层与运行身份。"],
+  ["02", "MinerU 解析", "抽取 Page、Block、Asset 与基础结构。"],
+  ["03", "质量审计", "识别漏块、乱码、错序、低清与表格结构异常。"],
+  ["04", "VLM 后处理", "按问题类型路由 Qwen3-VL，只修订疑难区域。"],
+  ["05", "结构重建", "恢复标题路径、阅读顺序与跨页表关系。"],
+  ["06", "分模态 Chunk", "正文、表格、图表和公式采用不同切分策略。"],
+  ["07", "证据召回", "Dense + BM25 + Rerank，保留页码、坐标与资产。"],
 ];
 
-const decisions = [
-  {
-    index: "01",
-    title: "非破坏式证据裁决",
-    text: "MinerU 原始内容永久保留，PDF 文本层与 Qwen 输出作为独立修订。只有证据满足规则时才进入 resolved；发生冲突时保留主证据并标记待复核。",
-  },
-  {
-    index: "02",
-    title: "局部、按需调用 VLM",
-    text: "先用确定性规则发现乱码、模糊、旋转、表格异常等问题，再为不同 Block 路由专用任务。不可读区域禁止根据上下文猜测。",
-  },
-  {
-    index: "03",
-    title: "复杂表格双源验证",
-    text: "按真实行边界切片并重复表头，将 MinerU 与 Qwen 结果展开为 canonical cells 逐格比较；不同表号和表题是跨页合并的硬否决条件。",
-  },
-  {
-    index: "04",
-    title: "检索粒度与风险分层",
-    text: "表格同时生成摘要、行组和精确单行，图表拆分整体描述与事实。Chunk 区分 verified 与 provisional，召回结果携带页码、bbox、资产和证据状态。",
-  },
-];
+function DetailSection({ eyebrow, title, children, id }: { eyebrow: string; title: string; children: React.ReactNode; id?: string }) {
+  return <section className="case-section" id={id}><div className="case-section-heading"><span>{eyebrow}</span><h2>{title}</h2></div><div className="case-section-body">{children}</div></section>;
+}
 
-export default function ProjectDetail() {
+export default function DocumentEvidenceRagPage() {
   return (
-    <main className="detail-page">
-      <header className="detail-header shell">
-        <a className="back-link" href="/">
-          <ArrowLeft size={17} /> 返回主页
-        </a>
-        <nav aria-label="项目详情导航">
-          <a href="#overview">概览</a>
-          <a href="#architecture">架构</a>
-          <a href="#decisions">设计决策</a>
-          <a href="#results">验证</a>
-        </nav>
-      </header>
+    <main className="case-page" id="top">
+      <header className="case-nav"><a href="/"><ArrowLeft size={16} /> 返回主页</a><nav aria-label="详情页导航"><a href="#process">流程</a><a href="#design">设计</a><a href="#result">结果</a></nav></header>
+      <article className="case-sheet">
+        <header className="case-title">
+          <p>PROJECT 01 · DOCUMENT INTELLIGENCE</p>
+          <h1>复杂文档解析与证据检索</h1>
+          <div className="case-meta"><strong>实习项目</strong><span>太极计算机股份有限公司</span><time>2026.01—2026.07</time></div>
+          <p className="case-lead">面向扫描件、多栏排版、复杂表格、图表和公式 PDF，构建从文档解析、质量门控、按需视觉修订，到分模态 Chunk 和混合召回的完整链路。每条结果保留来源，可回到原页复核。</p>
+          <p className="case-stack"><strong>技术栈：</strong>Python、MinerU、Qwen3-VL、FastAPI、OpenCV、pypdf、MySQL、Milvus、Embedding、BM25、Rerank</p>
+        </header>
 
-      <section className="detail-hero shell" id="overview">
-        <div>
-          <p className="eyebrow">PROJECT 01 · DOCUMENT INTELLIGENCE</p>
-          <h1>DocTrace<br />复杂文档多模态检索</h1>
-          <p className="detail-lead">
-            面向扫描件、多栏排版、复杂表格、图表和公式，完成从 PDF 解析到 TopK 证据召回的工程链路。重点不是让模型覆盖原结果，而是保留来源、显式处理冲突，并让每条召回证据可回到原页复核。
-          </p>
-          <div className="detail-tags tag-list">
-            <span>Python</span><span>MinerU</span><span>Qwen3-VL</span><span>MySQL</span><span>Milvus</span><span>Hybrid Search</span>
+        <DetailSection eyebrow="01 / BACKGROUND" title="问题与目标">
+          <ul className="case-bullets"><li><strong>解析完整性：</strong>MinerU 在双栏、旋转页、低清扫描、漏块和跨页表格场景中可能出现内容缺失与阅读顺序错误。</li><li><strong>证据完整性：</strong>正文、表格、图表与跨页证据采用同一种切分方式时，容易丢失标题路径、表头语义和相邻关系。</li><li><strong>修订可信度：</strong>VLM 可以补充视觉信息，但输出不能无记录覆盖原始解析，需要保留来源、冲突和复核状态。</li></ul>
+        </DetailSection>
+
+        <DetailSection eyebrow="02 / PROCESS" title="关键处理流程" id="process">
+          <ol className="case-pipeline">{pipeline.map(([index, title, text]) => <li key={index}><span>{index}</span><div><strong>{title}</strong><p>{text}</p></div></li>)}</ol>
+        </DetailSection>
+
+        <DetailSection eyebrow="03 / ENGINEERING" title="核心设计" id="design">
+          <div className="case-grid">
+            <article><h3>非破坏式 VLM 后处理</h3><p>先用确定性规则定位问题 Block，再按文字、表格、图表和公式路由视觉任务。原始内容与修订分层保存，发生冲突时标记待复核。</p></article>
+            <article><h3>复杂表格结构恢复</h3><p>依据真实行边界切片并重复表头；将 MinerU 与视觉结果规范化为 canonical cells，逐格比较，多级表头和跨页表使用独立规则。</p></article>
+            <article><h3>分模态 Chunk</h3><p>正文保留标题路径，表格生成摘要、行组与精确单行，图表拆分整体描述与可检索事实，公式保留上下文与页内位置。</p></article>
+            <article><h3>可追溯混合召回</h3><p>通过 Dense + BM25 + Rerank 组合召回，Chunk 携带 page、bbox、asset、revision source 与 evidence status。</p></article>
           </div>
-        </div>
-        <aside className="scope-note">
-          <FileSearch size={24} />
-          <strong>当前项目边界</strong>
-          <p>系统返回带出处的检索证据，暂不包含最终自然语言答案生成器。</p>
-        </aside>
-      </section>
+          <div className="evidence-line"><strong>证据状态：</strong><span>raw content</span><i>→</i><span>revision</span><i>→</i><span>resolved / review</span><i>→</i><span>verified / provisional chunk</span></div>
+        </DetailSection>
 
-      <section className="problem-section shell">
-        <div className="detail-section-title">
-          <span>01 / PROBLEM</span>
-          <h2>复杂 PDF 的问题不止是 OCR</h2>
-        </div>
-        <div className="problem-grid">
-          <article>
-            <span>内容缺失</span>
-            <p>解析器可能完全漏掉文字，也可能与 PDF 文本层在数字、脚注或段落边界上冲突。</p>
-          </article>
-          <article>
-            <span>结构失真</span>
-            <p>双栏、旋转页、页眉页脚和标题层级会改变阅读顺序，直接污染下游 Chunk。</p>
-          </article>
-          <article>
-            <span>表格复杂</span>
-            <p>多级表头、超长表、跨页表和被误识别为图片的表格，需要不同于正文的处理策略。</p>
-          </article>
-          <article>
-            <span>证据风险</span>
-            <p>VLM 能补全视觉信息，但输出并非真值；冲突结果不能无记录地覆盖原始内容。</p>
-          </article>
-        </div>
-      </section>
+        <DetailSection eyebrow="04 / RESULT" title="结果与边界" id="result">
+          <ul className="case-bullets result-list"><li>针对双栏、漏块及跨页表格完成 VLM 后处理流程，相较单 MinerU 解析准确率提升 <strong>10%+</strong>。</li><li>设计分模态 Chunk 与 Dense + BM25 + Rerank 架构，测试集 Top3 证据召回率提升 <strong>20%+</strong>。</li><li>用合成复杂 PDF、结构质量测试和代表性召回问题进行回归；验证范围是当前测试集，不外推为通用 OCR 准确率。</li><li>当前项目边界止于可追溯证据召回，不包含最终自然语言答案生成器。</li></ul>
+        </DetailSection>
 
-      <section className="architecture-section" id="architecture">
-        <div className="shell">
-          <div className="detail-section-title light">
-            <span>02 / ARCHITECTURE</span>
-            <h2>从文件输入到可追溯召回</h2>
-          </div>
-          <ol className="pipeline-list">
-            {pipeline.map(([index, title, text], i) => (
-              <li key={index}>
-                <div className="pipeline-index">{index}</div>
-                <strong>{title}</strong>
-                <p>{text}</p>
-                {i < pipeline.length - 1 && <ArrowRight className="pipeline-arrow" size={18} aria-hidden="true" />}
-              </li>
-            ))}
-          </ol>
-
-          <div className="evidence-model">
-            <div className="evidence-title">
-              <Layers3 size={22} />
-              <div><strong>证据链</strong><span>每一步都保留来源与状态</span></div>
-            </div>
-            <div className="evidence-flow" aria-label="证据状态传递">
-              <span>raw content</span><i>→</i><span>revisions</span><i>→</i><span>resolved / review</span><i>→</i><span>verified / provisional chunk</span><i>→</i><span>page · bbox · asset</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="decision-section shell" id="decisions">
-        <div className="detail-section-title">
-          <span>03 / ENGINEERING DECISIONS</span>
-          <h2>关键设计决策</h2>
-        </div>
-        <div className="decision-list">
-          {decisions.map((decision) => (
-            <article key={decision.index}>
-              <span>{decision.index}</span>
-              <h3>{decision.title}</h3>
-              <p>{decision.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="validation-section" id="results">
-        <div className="shell validation-layout">
-          <div className="detail-section-title">
-            <span>04 / VALIDATION</span>
-            <h2>验证结果与适用边界</h2>
-          </div>
-          <div>
-            <div className="validation-card">
-              <SearchCheck size={24} />
-              <h3>代表性文档召回回归</h3>
-              <p>回归集覆盖事实定位、表格字段、跨页证据和图表信息，并分别检查页命中、内容命中与来源可追溯性。</p>
-              <small>验证范围是当前代表性文档的证据召回，不代表通用 OCR、跨文档检索或最终答案准确率。</small>
-            </div>
-            <ul className="boundary-list">
-              <li><CheckCircle2 size={17} />Chunk 结构、去重与页码连续性检查纳入自动化回归</li>
-              <li><CheckCircle2 size={17} />阅读顺序、表格重建与证据状态均有对应测试</li>
-              <li><ShieldCheck size={17} />冲突内容以 provisional 证据保留，不伪装为已确认结果</li>
-              <li><Database size={17} />当前词法索引适合单文档规模，MySQL 与 Milvus 尚无分布式事务</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="detail-footer shell">
-        <div>
-          <p className="eyebrow">SOURCE</p>
-          <h2>查看实现与工程文档</h2>
-          <p>公开仓库包含核心源码、合成测试文档、回归评测和可编辑工作流；真实文档、运行产物与凭据已排除。</p>
-        </div>
-        <a className="button secondary" href="https://github.com/GRANDCANY0N/document-evidence-rag" target="_blank" rel="noreferrer"><Code2 size={17} /> GitHub 源码</a>
-      </section>
+        <footer className="case-source"><div><span>SOURCE CODE</span><h2>查看脱敏后的公开实现</h2><p>公开仓库保留核心代码、合成测试与评测入口；内部设计文档、真实文档、模型产物、运行数据与凭据不公开。</p></div><a href="https://github.com/GRANDCANY0N/document-evidence-rag" target="_blank" rel="noreferrer"><Code2 size={17} /> GitHub 源码 <ArrowUpRight size={16} /></a></footer>
+      </article>
     </main>
   );
 }
