@@ -10,7 +10,6 @@ import {
   Mail,
   Network,
 } from "lucide-react";
-import Link from "next/link";
 
 const skillGroups = [
   {
@@ -109,22 +108,27 @@ export default function Home() {
               <span className="status"><CheckCircle2 size={14} /> 重点项目</span>
               <span>2026</span>
             </div>
-            <h3>复杂文档证据检索系统</h3>
+            <h3>DocTrace · 复杂文档多模态检索</h3>
             <p className="project-summary">
               面向扫描件、复杂表格、图表和多栏 PDF，构建从解析、质量门控、按需视觉修订，到多模态切块和混合召回的完整链路；每条结果保留页码、坐标、资产与修订来源。
             </p>
-            <div className="project-stats" aria-label="项目验证结果">
-              <div><strong>1,246</strong><span>最终检索 Chunk</span></div>
-              <div><strong>99</strong><span>结构质量分</span></div>
-              <div><strong>48</strong><span>召回回归问题</span></div>
+            <div className="project-flow" aria-label="项目关键流程">
+              <span className="flow-label">关键流程</span>
+              <ol>
+                <li><small>01</small><strong>PDF 预检</strong></li>
+                <li><small>02</small><strong>MinerU 解析</strong></li>
+                <li><small>03</small><strong>质量门控</strong></li>
+                <li><small>04</small><strong>视觉修订</strong></li>
+                <li><small>05</small><strong>混合检索</strong></li>
+              </ol>
             </div>
             <div className="project-footer">
               <div className="tag-list">
-                <span>Python</span><span>MinerU</span><span>Qwen3-VL</span><span>MySQL</span><span>Milvus</span>
+                <span>Python</span><span>MinerU</span><span>Qwen3-VL</span><span>OpenCV</span><span>MySQL</span><span>Milvus</span>
               </div>
-              <Link className="project-link" href="/projects/document-evidence-rag/">
+              <a className="project-link" href="/projects/document-evidence-rag/">
                 查看详情 <ArrowUpRight size={17} />
-              </Link>
+              </a>
             </div>
           </div>
           <div className="project-symbol" aria-hidden="true"><FileSearch size={72} strokeWidth={1.25} /></div>
@@ -141,14 +145,19 @@ export default function Home() {
             <p className="project-summary">
               基于 Planner-SubAgent 架构处理校园多场景任务。围绕账单场景开发 OpenClaw Gmail Hook 与密码插件，实现加密附件下载、对话式密码校验、断点恢复、分类分析和结果交付。
             </p>
-            <div className="project-stats compact" aria-label="项目验证结果">
-              <div><strong>6</strong><span>异步任务状态</span></div>
-              <div><strong>95%+</strong><span>测试场景恢复率</span></div>
-              <div><strong>90%+</strong><span>图表生成成功率</span></div>
+            <div className="project-flow" aria-label="项目关键流程">
+              <span className="flow-label">关键流程</span>
+              <ol>
+                <li><small>01</small><strong>QQ / Gmail 输入</strong></li>
+                <li><small>02</small><strong>场景路由</strong></li>
+                <li><small>03</small><strong>状态机处理</strong></li>
+                <li><small>04</small><strong>Cron 计划</strong></li>
+                <li><small>05</small><strong>QQBot 交付</strong></li>
+              </ol>
             </div>
             <div className="project-footer">
               <div className="tag-list">
-                <span>Python</span><span>OpenClaw</span><span>TypeScript</span><span>QQBot</span><span>Cron</span>
+                <span>Python</span><span>TypeScript</span><span>OpenClaw</span><span>QQBot</span><span>Gmail</span><span>Cron</span>
               </div>
               <a className="project-link" href="https://github.com/GRANDCANY0N/campus-life-agent" target="_blank" rel="noreferrer">
                 查看源码 <ArrowUpRight size={17} />

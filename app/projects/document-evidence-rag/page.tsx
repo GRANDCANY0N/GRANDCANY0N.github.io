@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import {
   ArrowLeft,
   ArrowRight,
@@ -13,7 +12,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "复杂文档证据检索系统｜孙嘉豪",
+  title: "DocTrace｜复杂文档多模态检索｜孙嘉豪",
   description: "复杂 PDF 从解析、质量门控、视觉修订、多模态切块到可追溯召回的项目案例。",
 };
 
@@ -54,9 +53,9 @@ export default function ProjectDetail() {
   return (
     <main className="detail-page">
       <header className="detail-header shell">
-        <Link className="back-link" href="/">
+        <a className="back-link" href="/">
           <ArrowLeft size={17} /> 返回主页
-        </Link>
+        </a>
         <nav aria-label="项目详情导航">
           <a href="#overview">概览</a>
           <a href="#architecture">架构</a>
@@ -68,7 +67,7 @@ export default function ProjectDetail() {
       <section className="detail-hero shell" id="overview">
         <div>
           <p className="eyebrow">PROJECT 01 · DOCUMENT INTELLIGENCE</p>
-          <h1>复杂文档<br />证据检索系统</h1>
+          <h1>DocTrace<br />复杂文档多模态检索</h1>
           <p className="detail-lead">
             面向扫描件、多栏排版、复杂表格、图表和公式，完成从 PDF 解析到 TopK 证据召回的工程链路。重点不是让模型覆盖原结果，而是保留来源、显式处理冲突，并让每条召回证据可回到原页复核。
           </p>
@@ -81,15 +80,6 @@ export default function ProjectDetail() {
           <strong>当前项目边界</strong>
           <p>系统返回带出处的检索证据，暂不包含最终自然语言答案生成器。</p>
         </aside>
-      </section>
-
-      <section className="result-strip" aria-label="项目验证摘要">
-        <div className="shell result-grid">
-          <div><strong>1,246</strong><span>最终多模态 Chunk</span></div>
-          <div><strong>99</strong><span>Chunk 结构质量分</span></div>
-          <div><strong>36</strong><span>自动化回归测试通过</span></div>
-          <div><strong>48</strong><span>召回评测问题</span></div>
-        </div>
       </section>
 
       <section className="problem-section shell">
@@ -172,12 +162,12 @@ export default function ProjectDetail() {
             <div className="validation-card">
               <SearchCheck size={24} />
               <h3>代表性文档召回回归</h3>
-              <p>48 题回归集中，Top3 / Top5 / Top10 的页命中、内容成功、grounded、strict 与平均关键词覆盖均为 100%。</p>
-              <small>该结果只描述当前单文档证据召回集，不代表通用 OCR、跨文档 RAG 或最终答案准确率。</small>
+              <p>回归集覆盖事实定位、表格字段、跨页证据和图表信息，并分别检查页命中、内容命中与来源可追溯性。</p>
+              <small>验证范围是当前代表性文档的证据召回，不代表通用 OCR、跨文档检索或最终答案准确率。</small>
             </div>
             <ul className="boundary-list">
-              <li><CheckCircle2 size={17} />1,246 个 Chunk 无 hard failure、完全重复或页码倒退</li>
-              <li><CheckCircle2 size={17} />结构修复回归测试 36 项通过</li>
+              <li><CheckCircle2 size={17} />Chunk 结构、去重与页码连续性检查纳入自动化回归</li>
+              <li><CheckCircle2 size={17} />阅读顺序、表格重建与证据状态均有对应测试</li>
               <li><ShieldCheck size={17} />冲突内容以 provisional 证据保留，不伪装为已确认结果</li>
               <li><Database size={17} />当前词法索引适合单文档规模，MySQL 与 Milvus 尚无分布式事务</li>
             </ul>
