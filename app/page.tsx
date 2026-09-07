@@ -7,7 +7,7 @@ const skills = [
   ["研发工具", "Claude Code、OpenClaw、Codex、Hermes、SDD"],
 ];
 
-const projectOneFlow = ["PDF 预检", "MinerU 解析", "VLM 后处理", "分模态 Chunk", "混合召回"];
+const projectOneFlow = ["解析与页级审计", "VLM 定向修复", "结构重建", "分模态 Chunk", "问题分流与召回"];
 const projectTwoFlow = ["QQ / Gmail 输入", "场景路由", "状态机处理", "Cron 调度", "QQBot 交付"];
 
 function SectionTitle({ id, children }: { id: string; children: React.ReactNode }) {
@@ -55,10 +55,10 @@ export default function Home() {
             <header className="entry-header"><h3>太极计算机股份有限公司（北京）</h3><strong>研发工程师</strong><time>2026.01—2026.07</time></header>
             <p className="stack-line"><strong>技术栈：</strong>Python、MinerU、FastAPI、OpenCV、pypdf、MySQL、Milvus、Embedding、Rerank、BM25</p>
             <ul className="entry-points">
-              <li><strong>文档后处理：</strong>参与设计 VLM 后处理流程，处理双栏、漏块及跨页表格的解析缺失与错序，相较单 MinerU 解析准确率提升 10%+。</li>
+              <li><strong>文档后处理：</strong>参与设计并实现 MinerU + VLM 后处理流程，通过页级漏检检查、跨页表合并等处理，使解析准确率从 88% 提升至 97%+。</li>
               <li><strong>多模态 RAG：</strong>设计分模态 Chunk 与 Dense + BM25 + Rerank 混合召回架构，测试集 Top3 证据召回率提升 20%+。</li>
+              <li><strong>查询意图识别：</strong>用正则路由明确问题，仅对指代不清问题调用 LLM 补全；重写后关键词覆盖率提升 30%+。</li>
               <li><strong>Agent 生命周期 Hook：</strong>构建 L1 粗过滤 → L2 Tool ACL + Shell 拦截 → L3 Secret / PII 输出脱敏的三级 Hook。</li>
-              <li><strong>混合 RAG：</strong>参与 LightRAG + BM25 混合图谱检索实现，相较 GraphRAG 检索速度提升 40%，Recall@K 从 80% 提升至 90%+。</li>
             </ul>
           </article>
         </section>
@@ -68,7 +68,7 @@ export default function Home() {
           <article className="resume-entry featured-entry">
             <header className="entry-header"><h3>复杂文档解析与证据检索</h3><strong>实习项目</strong><time>2026.01—2026.07</time></header>
             <p className="stack-line"><strong>技术栈：</strong>Python、MinerU、Qwen3-VL、FastAPI、OpenCV、pypdf、MySQL、Milvus、BM25、Rerank</p>
-            <p className="entry-summary">针对扫描件、多栏、复杂表格、图表与公式 PDF，完成从解析质量审计、按需视觉修订到可追溯证据召回的处理链路。</p>
+            <p className="entry-summary">针对扫描件、多栏、复杂表格、图表与公式 PDF，完成页级漏检审计、按需视觉修订、结构重建、分模态切块、查询分流与混合召回。</p>
             <Flow items={projectOneFlow} label="复杂文档解析与证据检索关键流程" />
             <div className="entry-actions"><a href="/projects/document-evidence-rag/">项目详情 <ArrowUpRight size={15} /></a><a href="https://github.com/GRANDCANY0N/document-evidence-rag" target="_blank" rel="noreferrer">GitHub 源码 <Code2 size={15} /></a></div>
           </article>
