@@ -55,7 +55,7 @@ export default function DocumentEvidenceRagPage() {
           <p>PROJECT 01 · DOCUMENT INTELLIGENCE</p>
           <h1>复杂文档解析与证据检索</h1>
           <div className="case-meta"><strong>实习项目</strong><span>太极计算机股份有限公司</span><time>2026.01—2026.07</time></div>
-          <p className="case-lead">针对扫描件、双栏、复杂表格、图表和公式 PDF，系统先审计 MinerU 是否漏解析或错序，再按问题类型调用 VLM 修复；完成结构重建和分模态切块后，通过问题分流、Dense + 词法候选与 Rerank 返回带页码、坐标和来源的证据。</p>
+          <p className="case-lead">该项目为我在太极计算机股份有限公司实习期间参与研发的复杂文档检索系统。针对扫描件、双栏、复杂表格、图表和公式 PDF，系统先审计 MinerU 是否漏解析或错序，再按问题类型调用 VLM 修复；完成结构重建和分模态切块后，通过问题分流、Dense + 词法候选与 Rerank 返回带页码、坐标和来源的证据。</p>
           <p className="case-stack"><strong>技术栈：</strong>Python、MinerU、Qwen3-VL、FastAPI、OpenCV、pypdf、MySQL、Milvus、Qwen3-Embedding、BM25 / 词法检索、Rerank</p>
         </header>
 

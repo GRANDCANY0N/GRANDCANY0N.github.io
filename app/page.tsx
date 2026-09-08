@@ -68,7 +68,7 @@ export default function Home() {
           <article className="resume-entry featured-entry">
             <header className="entry-header"><h3>复杂文档解析与证据检索</h3><strong>实习项目</strong><time>2026.01—2026.07</time></header>
             <p className="stack-line"><strong>技术栈：</strong>Python、MinerU、Qwen3-VL、FastAPI、OpenCV、pypdf、MySQL、Milvus、BM25、Rerank</p>
-            <p className="entry-summary">针对扫描件、多栏、复杂表格、图表与公式 PDF，完成页级漏检审计、按需视觉修订、结构重建、分模态切块、查询分流与混合召回。</p>
+            <p className="entry-summary">该项目为太极计算机股份有限公司实习期间参与研发的复杂文档检索系统，面向扫描件、双栏排版、复杂表格、图表及公式 PDF，构建 MinerU 解析、页级审计、Qwen3-VL 定向修复、结构重建、分模态 Chunk 与混合召回链路。系统通过文本层、版面坐标和视觉结果交叉校验，保留页码、坐标及修订来源，并加入 fast、rewrite、bypass 查询分流，提升解析与多轮追问下的证据召回效果。</p>
             <Flow items={projectOneFlow} label="复杂文档解析与证据检索关键流程" />
             <div className="entry-actions"><a href="/projects/document-evidence-rag/">项目详情 <ArrowUpRight size={15} /></a><a href="https://github.com/GRANDCANY0N/document-evidence-rag" target="_blank" rel="noreferrer">GitHub 源码 <Code2 size={15} /></a></div>
           </article>
@@ -76,7 +76,7 @@ export default function Home() {
           <article className="resume-entry featured-entry">
             <header className="entry-header"><h3>基于 QQBot 端的校园生活 Agent（PCG 校园大赛）</h3><strong>独立开发</strong><time>2026.04—2026.05</time></header>
             <p className="stack-line"><strong>技术栈：</strong>Python、QQBot、Open-Meteo、OpenClaw Plugin / Hook、Cron</p>
-            <p className="entry-summary">在一个 QQ 对话入口中组织课表提醒与多平台账单管理，通过场景路由、隔离状态和异步任务恢复支持多轮校园生活任务。</p>
+            <p className="entry-summary">基于 QQBot 与 OpenClaw 构建校园生活双 Agent 系统，将课表提醒和微信、支付宝、银行卡账单管理整合到同一对话入口。系统通过 Planner-SubAgent 动态分发、上下文隔离和文件型状态存储管理多场景任务，并结合 Gmail Hook、密码校验状态机、Open-Meteo 与 Cron 调度，实现账单自动处理、课表日期展开、天气补充和主动提醒，支持中断后的异步任务恢复。</p>
             <Flow items={projectTwoFlow} label="校园生活 Agent 关键流程" />
             <div className="entry-actions"><a href="/projects/campus-life-agent/">项目详情 <ArrowUpRight size={15} /></a><a href="https://github.com/GRANDCANY0N/campus-life-agent" target="_blank" rel="noreferrer">GitHub 源码 <Code2 size={15} /></a></div>
           </article>
