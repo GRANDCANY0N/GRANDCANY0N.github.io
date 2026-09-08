@@ -31,7 +31,7 @@ export default function Home() {
           <p className="identity-kicker">AGENT ENGINEER · AI MASTER STUDENT</p>
           <h1>孙嘉豪</h1>
           <p className="identity-role">Agent 工程师 · 人工智能硕士在读</p>
-          <p className="identity-summary">南昌大学人工智能专业硕士，关注 Agent Runtime、Multi-Agent 协作、复杂文档 RAG 与后端工程。现于太极计算机股份有限公司从事 Agent 与检索系统研发。</p>
+          <p className="identity-summary">南昌大学人工智能专业硕士，关注 Agent Runtime、Multi-Agent 协作、复杂文档 RAG 与后端工程。</p>
           <div className="identity-links">
             <a href="mailto:sunjiahao@email.ncu.edu.cn"><Mail size={15} /> sunjiahao@email.ncu.edu.cn</a>
             <a href="https://github.com/GRANDCANY0N" target="_blank" rel="noreferrer"><Code2 size={15} /> GRANDCANY0N</a>
