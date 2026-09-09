@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowLeft, ArrowUpRight, Code2 } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CalendarDays, Clock3, Code2, Database, Mail, MessageCircle, ReceiptText, Route, Send } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "QQBot 校园生活 Agent｜孙嘉豪",
@@ -43,16 +43,39 @@ export default function CampusLifeAgentPage() {
         </header>
 
         <DetailSection eyebrow="01 / ARCHITECTURE" title="入口统一，状态隔离" id="architecture">
-          <div className="architecture-map wide-map">
-            <div className="map-node input-node"><strong>QQBot / Gmail</strong><span>对话、课表、账单附件</span></div>
-            <div className="map-arrow">→</div>
-            <div className="map-node router-node"><strong>Intent Router</strong><span>文件语义 + 对话意图</span></div>
-            <div className="map-arrow">→</div>
-            <div className="map-branches">
-              <div className="map-node"><strong>课表提醒 Agent</strong><span>schedule / plan / reminder state</span></div>
-              <div className="map-node"><strong>账单分析 Agent</strong><span>task state / ledger / derived data</span></div>
+          <figure className="agent-flow-diagram" aria-label="校园生活双 Agent 系统架构流程图">
+            <figcaption className="sr-only">QQBot 和 Gmail 输入经过 OpenClaw Hook、Plugin 与 Intent Router 后，分别进入课表提醒 Agent 或账单分析 Agent，再通过 Cron、QQBot 或飞书交付；各业务状态独立持久化。</figcaption>
+            <div className="agent-main-flow">
+              <div className="agent-stage input-stage">
+                <small>INPUT</small>
+                <div><MessageCircle size={18} /><span><strong>QQBot</strong><em>对话 / 课表</em></span></div>
+                <div><Mail size={18} /><span><strong>Gmail</strong><em>账单附件</em></span></div>
+              </div>
+              <i className="agent-flow-arrow" aria-hidden="true">→</i>
+              <div className="agent-stage router-stage">
+                <small>ROUTING</small>
+                <Route size={21} />
+                <strong>OpenClaw Hook / Plugin</strong>
+                <em>文件语义 + 对话意图</em>
+                <b>Intent Router</b>
+              </div>
+              <i className="agent-flow-arrow split-arrow" aria-hidden="true">⇢</i>
+              <div className="agent-branches">
+                <div className="agent-stage"><CalendarDays size={20} /><span><strong>课表提醒 Agent</strong><em>日期展开 · 行程 · 提醒</em></span></div>
+                <div className="agent-stage"><ReceiptText size={20} /><span><strong>账单分析 Agent</strong><em>解密 · 归一 · 去重 · 分类</em></span></div>
+              </div>
+              <i className="agent-flow-arrow" aria-hidden="true">→</i>
+              <div className="agent-stage output-stage">
+                <small>DELIVERY</small>
+                <div><Clock3 size={18} /><span><strong>Cron</strong><em>主动任务</em></span></div>
+                <div><Send size={18} /><span><strong>QQ / 飞书</strong><em>提醒与结果</em></span></div>
+              </div>
             </div>
-          </div>
+            <div className="agent-state-rail">
+              <div><Database size={17} /><strong>独立状态落盘</strong></div>
+              <span>文件 manifest</span><span>schedule / plan</span><span>task_state / ledger</span><span>reminder registry</span>
+            </div>
+          </figure>
           <ul className="case-bullets">
             <li><strong>文件先落盘再执行：</strong>入站附件生成 file_id、SHA-256、MIME、来源消息和语义置信度，原文件与 manifest 分开保存。</li>
             <li><strong>业务状态分域：</strong>课表版本、学期日历、每日计划、提醒 registry 与账单 task_state 各自持久化，避免一个长对话把不同任务状态混在上下文里。</li>

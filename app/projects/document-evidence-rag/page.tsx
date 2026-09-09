@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowLeft, ArrowUpRight, Code2 } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Braces, CheckCircle2, Code2, Database, Eye, FileText, GitMerge, ListFilter, ScanSearch, Search } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "复杂文档解析与证据检索｜孙嘉豪",
@@ -59,12 +59,41 @@ export default function DocumentEvidenceRagPage() {
           <p className="case-stack"><strong>技术栈：</strong>Python、MinerU、Qwen3-VL、FastAPI、OpenCV、pypdf、MySQL、Milvus、Qwen3-Embedding、BM25 / 词法检索、Rerank</p>
         </header>
 
-        <DetailSection eyebrow="01 / SYSTEM" title="两条主链">
-          <div className="system-lanes">
-            <article><span>DOCUMENT PATH</span><h3>文档进入系统</h3><p>PDF → MinerU → 页级审计 → VLM 修订 → 结构重建 → Chunk → 索引</p></article>
-            <article><span>EVIDENCE PATH</span><h3>证据持续留痕</h3><p>raw content → revisions → resolved / review → verified / provisional</p></article>
-            <article><span>QUERY PATH</span><h3>问题进入系统</h3><p>fast / rewrite / bypass → 多查询召回 → RRF → Rerank → Top-K</p></article>
-          </div>
+        <DetailSection eyebrow="01 / SYSTEM" title="文档、证据与检索三条链路">
+          <figure className="flow-diagram document-flow-diagram" aria-label="复杂文档解析与证据检索系统流程图">
+            <figcaption className="sr-only">PDF 经 MinerU、页级审计、VLM 定向修复和结构重建后生成 Chunk 并索引；原始内容与修订全程留痕；查询经过分流、混合召回和重排后返回证据。</figcaption>
+            <div className="diagram-lane">
+              <div className="diagram-lane-label"><small>01 · INGEST</small><strong>文档处理</strong></div>
+              <div className="diagram-node-flow six-nodes">
+                <div className="diagram-node"><FileText size={18} /><strong>PDF</strong><span>预检与身份</span></div>
+                <div className="diagram-node"><ScanSearch size={18} /><strong>MinerU</strong><span>版面与资产</span></div>
+                <div className="diagram-node"><Eye size={18} /><strong>页级审计</strong><span>漏块与冲突</span></div>
+                <div className="diagram-node accent"><Braces size={18} /><strong>VLM 修订</strong><span>按 Flag 调用</span></div>
+                <div className="diagram-node"><GitMerge size={18} /><strong>结构重建</strong><span>顺序与层级</span></div>
+                <div className="diagram-node terminal"><Database size={18} /><strong>Chunk / 索引</strong><span>MySQL + Milvus</span></div>
+              </div>
+            </div>
+            <div className="diagram-lane">
+              <div className="diagram-lane-label"><small>02 · EVIDENCE</small><strong>证据留痕</strong></div>
+              <div className="diagram-node-flow four-nodes">
+                <div className="diagram-node"><FileText size={18} /><strong>Raw Content</strong><span>MinerU 原始结果</span></div>
+                <div className="diagram-node"><Braces size={18} /><strong>Revision</strong><span>修订独立保存</span></div>
+                <div className="diagram-node accent"><CheckCircle2 size={18} /><strong>裁决状态</strong><span>resolved / review</span></div>
+                <div className="diagram-node terminal"><Database size={18} /><strong>检索等级</strong><span>verified / provisional</span></div>
+              </div>
+            </div>
+            <div className="diagram-lane">
+              <div className="diagram-lane-label"><small>03 · QUERY</small><strong>问题检索</strong></div>
+              <div className="diagram-node-flow six-nodes">
+                <div className="diagram-node"><Search size={18} /><strong>用户问题</strong><span>原问题保留</span></div>
+                <div className="diagram-node accent"><ListFilter size={18} /><strong>问题分流</strong><span>fast / rewrite / bypass</span></div>
+                <div className="diagram-node"><Database size={18} /><strong>候选召回</strong><span>Dense + BM25</span></div>
+                <div className="diagram-node"><GitMerge size={18} /><strong>RRF</strong><span>合并候选</span></div>
+                <div className="diagram-node"><Braces size={18} /><strong>Rerank</strong><span>一次重排</span></div>
+                <div className="diagram-node terminal"><CheckCircle2 size={18} /><strong>Top-K 证据</strong><span>页码与坐标</span></div>
+              </div>
+            </div>
+          </figure>
           <p className="section-intro top-gap">MySQL 保存页面、资产、Block 和全部 Revision，Milvus 只承载检索需要的 Chunk 元数据与向量；解析事实层与检索索引分开维护。</p>
         </DetailSection>
 
